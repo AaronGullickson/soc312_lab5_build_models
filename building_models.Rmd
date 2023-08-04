@@ -1,0 +1,58 @@
+---
+title: "Building Models"
+author: "Your name here"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+# This is an R code chunk that sets up some default parameters, loads the data,
+# and loads the ggplot library. DO NOT EDIT THIS CODE CHUNK. Whenever you start
+# working on your project, you should use the green play button on the right,
+# to load all the data and settings here.
+knitr::opts_chunk$set(echo = TRUE, fig.height=4)
+library(ggplot2)
+library(texreg)
+load("crimes.RData")
+load("earnings.RData")
+load("movies.RData")
+load("politics.RData")
+load("popularity.RData")
+load("sex.RData")
+load("titanic.RData")
+```
+
+## Instructions
+
+Please do not modify anything above this section, except for your name in the author field at the top.
+
+Follow the instructions on Canvas to create a PDF from this R Markdown file that describes several multivariate models. You can use the template below to get started, but ultimately you should replace everything with the correct variables and you should also remove these instructions.
+
+## This is a section header
+
+This is some random text that you should replace with a description of the results from your table. Take the time to describe your results thoroughly.
+
+```{r, results='asis'}
+# This is an R code chunk. The R code here is producing an easily readable table
+# of regression model results. You can get a preview of this table by hitting
+# the green play button on the right. You can use this R code chunk as a
+# template for your own, but you should replace the code with proper code for
+# the assignment.
+
+model1 <- lm(BoxOffice~I(Runtime-90), data=movies)
+model2 <- lm(BoxOffice~I(Runtime-90)+Rating, data=movies)
+model3 <- lm(BoxOffice~I(Runtime-90)+Rating+I(TomatoMeter-50), data=movies)
+model4 <- lm(BoxOffice~I(Runtime-90)*Rating+I(TomatoMeter-50), data=movies)
+
+knitreg(list(model1, model2, model3, model4),
+        caption="OLS regression models predicting movie box office returns in millions of dollars",
+        caption.above = TRUE,
+        #Comment out custom.coef.names until your models are ready for knitting
+        # custom.coef.names = c("Intercept", "Runtime in minutes (centered on 90)",
+        #                       "PG","PG-13","R","Tomato Meter (centered on 50)",
+        #                       "Runtime x PG","Runtime x PG-13",
+        #                       "Runtime x R"),
+        custom.gof.names = c("R-squared","N"),
+        digits=2,
+        include.adjrs=FALSE, include.rmse=FALSE,
+        custom.note = "%stars. Standard errors in parenthesis.")
+```
